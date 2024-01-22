@@ -14,9 +14,11 @@ if len(args) < 2:
 isPresent = discover_repository(path)
 
 if not isPresent:
-    msg = """    Respository not present.
-    Run repo_init.py {name} to create a repository.
-    Then change to that directory.
+    msg = f"""    You are not inside the git repo.
+    you are currently in dir - {path}.
+    Run `repo_init.py 'name'` to create a repository.
+    Then change to that directory. Then run
+    `author_init.py 'name'`
     """
     print(msg)
     os._exit(1)
@@ -41,3 +43,6 @@ repo.create_commit(refsHeads,
                    msg,
                    tree, 
                    [])
+
+newmsg = msg+" in repo "+path
+print(newmsg)
