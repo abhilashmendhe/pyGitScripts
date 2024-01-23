@@ -37,9 +37,9 @@ try:
     print(refspec.dst)
     print(refspec.string)
     specs = [f"refs/heads/alice"]
-    # callbacks = RemoteCallbacks()
-    # callbacks.push_update_reference(refspec.dst,"")
-    remote.push(specs)
+    callbacks = RemoteCallbacks()
+    callbacks.push_update_reference("refs/remotes/alice/*","")
+    remote.push(specs, callbacks)
 except Exception as e:
     print(e)
     print(f"remote {origin} does not exists!")  
