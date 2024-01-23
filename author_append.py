@@ -27,15 +27,28 @@ if not inGitRepo:
 
 repo = Repository(path)
 
+headsPname = "refs/heads/"+p_name
+
+ps = set()
 parents = []
-
 # for refs in repo.
-for objs in repo.listall_reference_objects():
-    if p_name == objs.resolve().shorthand:
-        parents.insert(0, objs.target)
-    else:
-        parents.append(objs.target)
+# for objs in repo.listall_reference_objects():
+#     if p_name == objs.resolve().shorthand:
+#         parents.append(objs.target)
+#     else:
+#         ps.add(objs.target)
 
+# for p in ps:
+#     if p != parents[0]:
+#         parents.append(p)
+
+for refs in repo.listall_reference_objects():
+    if refs.name.startswith("refs/heads"):
+        if refs.name == headsPname:
+            parents.insert(0, refs.target)
+        else:
+            parents.append(refs.target)
+# print(parents)
 
 email = f"{p_name}@email.com"
 author   = Signature(p_name, email)
