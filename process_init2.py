@@ -49,7 +49,7 @@ if isBranch:
     os._exit(1)
 
 email = f"{p_name}@email.com"
-msg = f"Author {p_name} initialized"
+msg = f"Author '{p_name}' initialized"
 author   = Signature(p_name, email)
 commiiter = Signature(p_name, email)
 refsHeads = f"refs/heads/{p_name}"

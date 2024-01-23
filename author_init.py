@@ -31,7 +31,7 @@ if isBranch:
     os._exit(1)
 
 email = f"{repo_name}@email.com"
-msg = f"Author {repo_name} initialized"
+msg = f"Author '{repo_name}' initialized"
 tree = repo.get("4b825dc642cb6eb9a060e54bf8d69288fbee4904").id
 author   = Signature(repo_name, email)
 commiiter = Signature(repo_name, email)
