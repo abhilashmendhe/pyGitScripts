@@ -13,6 +13,7 @@ if len(args) < 2:
 
 p_name = args[1]
 
+
 if len(args) < 3:
     print("Please specify the message!")
     os._exit(1)
@@ -27,20 +28,15 @@ if not inGitRepo:
 
 repo = Repository(path)
 
+branchP = repo.branches.get(p_name)
+if not branchP:
+    print(f"{p_name} branch is not present. Please run authon_init.py inside git repo.")
+    os._exit(1)
+
 headsPname = "refs/heads/"+p_name
 
 ps = set()
 parents = []
-# for refs in repo.
-# for objs in repo.listall_reference_objects():
-#     if p_name == objs.resolve().shorthand:
-#         parents.append(objs.target)
-#     else:
-#         ps.add(objs.target)
-
-# for p in ps:
-#     if p != parents[0]:
-#         parents.append(p)
 
 for refs in repo.listall_reference_objects():
     if refs.name.startswith("refs/heads"):
