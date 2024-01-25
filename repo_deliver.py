@@ -18,6 +18,7 @@ for refs in repo.listall_reference_objects():
         ind = refs.name.rfind("/")
         checkHeadsStr = "refs/delivered"+refs.name[ind:]
         inHeads = repo.references.get(checkHeadsStr)
+        print(inHeads)
         if not inHeads:
             deliverd_msg.append((refs.target, checkHeadsStr))
             repo.create_reference(checkHeadsStr, refs.target)

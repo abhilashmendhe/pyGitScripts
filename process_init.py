@@ -18,4 +18,4 @@ p_name = args[1]
 git_path = path + "/" + p_name
 call(["python3", path+"/pyGitScripts/repo_init.py",p_name])
 os.chdir(git_path)
-call(["python3",path+"/pyGitScripts/author_init.py",p_name])
+call(["python3",path+"/pyGitScripts/author_init.py",p_name,"process-init"])

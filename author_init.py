@@ -1,5 +1,6 @@
 from pygit2.repository import Repository
 from pygit2 import discover_repository, Signature
+from pygit2 import GIT_SORT_TOPOLOGICAL, GIT_SORT_REVERSE, GIT_SORT_NONE
 import os
 import sys
 
@@ -30,14 +31,28 @@ if isBranch:
     print(f"Branch {repo_name} already exists!")
     os._exit(1)
 
+pInit = ""
+if len(args) >= 3:
+    pInit = " "+args[2]
+
+with open(path+"/.git/git-cb","r") as f:
+    hash = f.read().split("\n")[-1]
+
+    if hash != "":
+        commit = repo.revparse_single(hash)
+        # print(commit.message)
+        if commit.message.endswith("process-init"):
+            print("Can't add author because it's a single process")
+            os._exit(1)
+
 email = f"{repo_name}@email.com"
-msg = f"Author '{repo_name}' initialized."
+msg = f"Author '{repo_name}' initialized."+pInit
 tree = repo.get("4b825dc642cb6eb9a060e54bf8d69288fbee4904").id
 author   = Signature(repo_name, email)
 commiiter = Signature(repo_name, email)
 refsHeads = f"refs/heads/{repo_name}"
 
-repo.create_commit(refsHeads, 
+firstHash = repo.create_commit(refsHeads, 
                    author, 
                    commiiter, 
                    msg,
@@ -45,4 +60,17 @@ repo.create_commit(refsHeads,
                    [])
 
 newmsg = msg+" in repo "+path
+
+with open(path+"/.git/git-cb","+a") as f:
+    # print(f.read())
+    hash = f.read().split("\n")[-1]
+    # print(hash)
+    if hash != "":
+        f.write(str(firstHash))
+    else:
+        pass
+        # print("not able to write")
+
+print(repo_name)
+print(firstHash)
 print(newmsg)

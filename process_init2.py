@@ -26,12 +26,6 @@ if isPresent:
 # Git init
 ans = pygit2.init_repository(git_path, False)
 
-# Create a git-cb file and add the dir. name
-git_cb_path = git_path + "/.git/git-cb"
-with open(git_cb_path, "w") as f:
-    f.write(p_name)
-    f.close()
-
 # Create a repository object. Create a TreeBuilder to write a tree.
 repo = Repository(git_path)
 tree = repo.TreeBuilder().write()
@@ -48,18 +42,27 @@ if isBranch:
     print(f"Branch {p_name} already exists!")
     os._exit(1)
 
+
 email = f"{p_name}@email.com"
-msg = f"Author '{p_name}' initialized"
+msg = f"Author '{p_name}' initialized. process-init"
 author   = Signature(p_name, email)
 commiiter = Signature(p_name, email)
 refsHeads = f"refs/heads/{p_name}"
 
-repo.create_commit(refsHeads, 
+firstHash = repo.create_commit(refsHeads, 
                    author, 
                    commiiter, 
                    msg,
                    tree, 
                    [])
-
+# Create a git-cb file and add the dir. name
+git_cb_path = git_path + "/.git/git-cb"
+with open(git_cb_path, "a") as f:
+    f.write(p_name+"\n")
+    f.write(str(firstHash))
+    f.close()
+    
 newmsg = msg+" in repo "+path
+print(p_name)
+print(firstHash)
 print(newmsg)

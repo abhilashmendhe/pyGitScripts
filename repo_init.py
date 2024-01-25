@@ -23,15 +23,16 @@ if isPresent:
 # Git init
 ans = pygit2.init_repository(git_path, False)
 
-# Create a git-cb file and add the dir. name
-git_cb_path = git_path + "/.git/git-cb"
-with open(git_cb_path, "w") as f:
-    f.write(inp)
-    f.close()
-
 # Create a repository object. Create a TreeBuilder to write a tree.
 repo = Repository(git_path)
 treeObj = repo.TreeBuilder()
 tobj = treeObj.write()
+
+# Create a git-cb file and add the dir. name
+git_cb_path = git_path + "/.git/git-cb"
+with open(git_cb_path, "a") as f:
+    f.write(inp+"\n")
+    # f.write(tobj.hex)
+    f.close()
 
 print("Repo inititialization sucessful!")
