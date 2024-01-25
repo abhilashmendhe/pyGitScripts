@@ -22,4 +22,4 @@ if not isValid:
 call(["python3", push_path+"/pyGitScripts/repo_merge.py"])
 if interval:
     time.sleep(int(interval))
-    call(["python3", push_path+"/pyGitScripts/repo_deliver.py"])
+call(["python3", push_path+"/pyGitScripts/repo_deliver.py"])
